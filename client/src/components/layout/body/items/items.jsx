@@ -160,11 +160,11 @@ export default function Items() {
             getOriginalPrice(product.discount.retail.percentage, cartItem.price);
             getAvailableFormFactor(0, 0);
         }
-    }, [product])
+    }, [product, getAvailableFormFactor, getOriginalPrice])
 
     useEffect(() => {
         getAvailableFormFactor(0, 0);
-    }, [])
+    }, [getAvailableFormFactor])
 
     if (!product) {
         return (

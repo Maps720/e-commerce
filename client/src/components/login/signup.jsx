@@ -37,6 +37,7 @@ export default function Signup() {
                 config
             );
 
+            console.log(data);
             setLoading(false);
             setResponded(true);
             navigate('/login')
