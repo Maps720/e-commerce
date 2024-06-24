@@ -1200,7 +1200,7 @@ const products = [
                                 name: 'Medium',
                                 units: 2
                             },
-                            form2: {
+                            form3: {
                                 name: 'Large',
                                 units: 5
                             }
