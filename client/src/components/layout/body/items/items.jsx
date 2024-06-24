@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import products from '../../../datasets/products'
+import products from '../../../datasets/products';
 import { ChevronDown, CircleX, Footprints, Heart, MapPin, Minus, Plus, Share2, Star, StarHalf, Tag, Tags, Truck } from 'lucide-react';
 import { useAppContext } from '../../../app_context/context';
 
@@ -33,7 +33,7 @@ export default function Items() {
      * @param {number} finalPrice - The final price after discount.
      * @returns {number} - The original price before discount.
      */
-    const getOriginalPrice = (discountPercentage, finalPrice) => {
+    const getOriginalPrice = useCallback((discountPercentage, finalPrice) => {
         if (discountPercentage >= 100) {
             throw new Error('Discount percentage must be less than 100');
         }
@@ -45,9 +45,9 @@ export default function Items() {
             ...prevItem,
             initialPrice: originalPrice
         }));
-    }
+    }, []);
 
-    // funstion that renders the rating stars
+    // function that renders the rating stars
     const renderStars = () => {
         const stars = [];
         for (let i = product.reviews.rating; i > 0; i--) {
@@ -60,7 +60,7 @@ export default function Items() {
         return stars;
     };
 
-    const getAvailableFormFactor = (formNumber, objectNumber) => {
+    const getAvailableFormFactor = useCallback((formNumber, objectNumber) => {
         if (product) {
             if (formNumber === 1 && product.forms.formFactor1.objects[`object${objectNumber}`]) {
                 const pieces = product.forms.formFactor1.objects[`object${objectNumber}`].pieces;
@@ -87,7 +87,7 @@ export default function Items() {
                 }
             }
         }
-    }
+    }, [product]);
 
     // change price according to form factor selected
     const changeFormFactor = (formFactorEffect, formNumber, price, name, image, index) => {
@@ -113,9 +113,9 @@ export default function Items() {
                 ...prevItem,
                 formFactor2: [cartItem.formFactor2[0], name]
             }));
-            getAvailableFormFactor(formNumber, objectNumber)
+            getAvailableFormFactor(formNumber, objectNumber);
         }
-    }
+    };
 
     // change method of delivery
     const changeDelivery = (bool) => {
@@ -123,11 +123,11 @@ export default function Items() {
             ...prevItem,
             delivery: bool
         }));
-    }
+    };
 
     // increase or reduce the cartItem units
     const changeCartItemUnits = (action) => {
-        // true = addition, false = subtruction
+        // true = addition, false = subtraction
         if (action) {
             const newUnits = cartItem.units + 1;
             setCartItem(prevItem => ({
@@ -141,15 +141,15 @@ export default function Items() {
                 units: newUnits
             }));
         }
-    }
+    };
 
-    // change the item image when user click on another image of the item
+    // change the item image when user clicks on another image of the item
     const changeImage = (imageSelection) => {
         setCartItem(prevItem => ({
             ...prevItem,
             image: imageSelection
         }));
-    }
+    };
 
     // holds the form factor details of an item
     const formFactorObjects = Object.values(product ? product.forms.formFactor1.objects : [null]);
@@ -160,20 +160,19 @@ export default function Items() {
             getOriginalPrice(product.discount.retail.percentage, cartItem.price);
             getAvailableFormFactor(0, 0);
         }
-    }, [product, getAvailableFormFactor, getOriginalPrice, cartItem.price])
+    }, [product, getOriginalPrice, getAvailableFormFactor, cartItem.price]);
 
     // Memoize the getAvailableFormFactor function
     const memoizedGetAvailableFormFactor = useCallback(
         (param1, param2) => {
             getAvailableFormFactor(param1, param2);
         },
-        []
+        [getAvailableFormFactor]
     );
 
     useEffect(() => {
         memoizedGetAvailableFormFactor(0, 0);
     }, [memoizedGetAvailableFormFactor]);
-
 
     if (!product) {
         return (
