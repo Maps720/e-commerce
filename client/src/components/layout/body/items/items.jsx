@@ -160,11 +160,20 @@ export default function Items() {
             getOriginalPrice(product.discount.retail.percentage, cartItem.price);
             getAvailableFormFactor(0, 0);
         }
-    }, [product, getAvailableFormFactor, getOriginalPrice])
+    }, [product, getAvailableFormFactor, getOriginalPrice, cartItem.price])
+
+    // Memoize the getAvailableFormFactor function
+    const memoizedGetAvailableFormFactor = useCallback(
+        (param1, param2) => {
+            getAvailableFormFactor(param1, param2);
+        },
+        []
+    );
 
     useEffect(() => {
-        getAvailableFormFactor(0, 0);
-    }, [getAvailableFormFactor])
+        memoizedGetAvailableFormFactor(0, 0);
+    }, [memoizedGetAvailableFormFactor]);
+
 
     if (!product) {
         return (
