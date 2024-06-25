@@ -91,7 +91,7 @@ const products = [
                         }
                     },
                     object4: {
-                        name: '1T',
+                        name: '1TB',
                         price: 37000,
                         image: 'i-15.jpg',
                         pieces: {
