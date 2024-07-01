@@ -525,7 +525,7 @@ export default function Product() {
                                     <span className='absolute left-0 right-0 mx-auto text-md font-[500] text-center'>
                                         Add Images
                                     </span>
-                                    <div className="ml-auto flex z-20">
+                                    <div className="ml-auto flex">
                                         <span>pics: 0</span>
                                     </div>
                                 </div>
