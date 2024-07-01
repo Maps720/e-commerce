@@ -28,19 +28,13 @@ export default function Header() {
                     </div>
                 </div>
                 <div className='justify-center items-center flex flex-1'>
-                    <Link to={'/'}>
-                        <button className={`${sizeSmall ? 'mx-2 px-2' : 'mx-4 px-4'} py-2 active:bg-zinc-700 hover:bg-zinc-600 rounded-md`}
-                            aria-label='Home'
-                        >
-                            <Home size={sizeMidSmall ? 25 : 30} />
-                        </button>
+                    <Link to={'/'} className={`${sizeSmall ? 'mx-2 px-2' : 'mx-4 px-4'} py-2 active:bg-zinc-700 hover:bg-zinc-600 rounded-md`}
+                        aria-label='Home'>
+                        <Home size={sizeMidSmall ? 25 : 30} />
                     </Link>
-                    <Link to={'/'}>
-                        <button className={`${sizeSmall ? 'mx-2 px-2' : 'mx-4 px-4'} py-2 active:bg-zinc-700 hover:bg-zinc-600 rounded-md`}
-                            aria-label='Input'
-                        >
-                            <Inbox size={sizeMidSmall ? 25 : 30} />
-                        </button>
+                    <Link to={'/product'} className={`${sizeSmall ? 'mx-2 px-2' : 'mx-4 px-4'} py-2 active:bg-zinc-700 hover:bg-zinc-600 rounded-md`}
+                        aria-label='Input'>
+                        <Inbox size={sizeMidSmall ? 25 : 30} />
                     </Link>
                     <button className={`${sizeSmall ? 'mx-2 px-2' : 'mx-4 px-4'} py-2 active:bg-zinc-700 hover:bg-zinc-600 rounded-md`}
                         aria-label='History'

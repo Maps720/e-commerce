@@ -47,6 +47,20 @@ export default function Items() {
         }));
     }, []);
 
+    // get the maximum units a customer can purchase
+    function getMaxUnitsToPurchase(unitsLeft) {
+        if (unitsLeft < 20) {
+            return 1;
+        } else if (unitsLeft >= 20 && unitsLeft <= 40) {
+            return 3;
+        } else if (unitsLeft > 40 && unitsLeft <= 500) {
+            // Dynamic increment: 1 unit per 10 units in stock
+            return Math.ceil((unitsLeft - 30) / 10) + 3;
+        } else {
+            return 100;
+        }
+    }
+
     // function that renders the rating stars
     const renderStars = () => {
         const stars = [];
@@ -377,12 +391,17 @@ export default function Items() {
                                             <Minus className='p-[5px]' />
                                         </button>
                                         <span className='font-[500] w-4 flex justify-center'>{cartItem.units}</span>
-                                        <button className="flex bg-gray-100 rounded-full mx-2 active:bg-gray-200" onClick={() => { changeCartItemUnits(true) }}>
+                                        <button className={`flex bg-gray-100 rounded-full mx-2 active:bg-gray-200 
+                                        ${getMaxUnitsToPurchase(product.units.left) === cartItem.units ? 'cursor-not-allowed' : null}`} onClick={() => { changeCartItemUnits(true) }}
+                                            disabled={getMaxUnitsToPurchase(product.units.left) === cartItem.units}>
                                             <Plus className='p-[5px]' />
                                         </button>
                                     </div>
-                                    <span className='text-red-500 mt-1'>3 pieces max per customer.</span>
+                                    <span className='text-red-500 mt-1'>{getMaxUnitsToPurchase(product.units.left)} pieces max per customer.</span>
                                     <div className='flex flex-col justify-center items-center mt-2'>
+                                        <div className="flex mt-2">
+                                            <span className='text-lg font-[500]'>Total ZMW{cartItem.price + (cartItem.delivery ? (180 * cartItem.units) : 0)}</span>
+                                        </div>
                                         <div className='flex justify-center items-center bg-red-400 rounded-full w-full p-2 hover:bg-red-500 active:bg-red-600 
                                         transition-all'>
                                             <span className='text-white font-[500]'>Buy Now</span>
